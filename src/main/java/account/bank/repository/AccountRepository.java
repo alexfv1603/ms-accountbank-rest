@@ -9,5 +9,6 @@ import account.bank.model.Product;
 public interface AccountRepository extends MongoRepository<Account, String>{
 	
 	List<Account> findByClientAndProduct(Client client, Product product);
+	Account getAccountByNumberAccount(String numberAccount);
 	
 }

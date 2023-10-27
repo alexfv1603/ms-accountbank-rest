@@ -4,6 +4,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 
 public class Account {
 	
+	private String id;
 	@DBRef
 	private Client client;
 	@DBRef
@@ -11,6 +12,12 @@ public class Account {
 	private String numberAccount;
 	private double balance;
 	
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
 	public Client getClient() {
 		return client;
 	}

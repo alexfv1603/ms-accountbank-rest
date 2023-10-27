@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import account.bank.bean.AccountRQ;
 import account.bank.bean.AccountRS;
+import account.bank.bean.UpdateAmountRQ;
 import account.bank.model.Account;
 import account.bank.model.Client;
 import account.bank.model.Product;
@@ -129,6 +130,37 @@ public class AccountServiceImpl implements AccountService {
 		accountRS.setStatus(status);
 		accountRS.setMessage(messaje);
 		return accountRS;
+	}
+
+	@Override
+	public boolean updateAmount(UpdateAmountRQ updateAmountRQ) {
+		try {
+			Account account = accountRepository.getAccountByNumberAccount(updateAmountRQ.getNumberAccount());
+			
+			if(account != null) {
+				double amountNew = 0.0;
+				if(ValidateAccount.validateTransaction(updateAmountRQ)) {
+					if(account.getBalance() > 0) {
+						if(account.getBalance() >= updateAmountRQ.getAmount()) {
+							amountNew = account.getBalance() - updateAmountRQ.getAmount();
+							
+							account.setBalance(amountNew);
+						}
+	 				} else {
+	 					return false;
+	 				}
+				} else {
+					amountNew = account.getBalance() + updateAmountRQ.getAmount();
+					
+					account.setBalance(amountNew);
+				}
+				accountRepository.save(account);
+				return true;
+			}
+		} catch (Exception e) {
+			System.out.println("error: " + e.getMessage());
+		}
+		return false;
 	}
 
 }
