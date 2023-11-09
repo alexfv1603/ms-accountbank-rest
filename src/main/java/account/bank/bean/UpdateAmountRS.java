@@ -5,9 +5,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class AccountRS {
+public class UpdateAmountRS {
 	
 	private boolean status;
 	private String message;
+	private String accountId = "";
 
 }
